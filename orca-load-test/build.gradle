@@ -1,0 +1,18 @@
+apply plugin: 'application'
+apply plugin: 'scala'
+
+dependencies {
+    compile "org.scala-lang:scala-library:2.11.8"
+    compile "org.scala-lang:scala-compiler:2.11.8"
+
+    compile "io.gatling:gatling-core:2.2.2"
+    compile "io.gatling:gatling-http:2.2.2"
+    compile "io.gatling.highcharts:gatling-charts-highcharts:2.2.2"
+
+    compile 'com.owlike:genson-scala_2.11:1.4'
+}
+
+ScalaCompileOptions.metaClass.daemonServer = true
+ScalaCompileOptions.metaClass.fork = true
+ScalaCompileOptions.metaClass.useAnt = false
+ScalaCompileOptions.metaClass.useCompileDaemon = false
