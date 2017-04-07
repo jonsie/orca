@@ -7,7 +7,7 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 object OrcaActions {
 
 	def postTask: HttpRequestBuilder =
-		http("Post event without subscription")
+		http("Submit a task to the Orca thingy")
 			.post("applications/spintest/tasks")
 			.body(StringBody("""{"task":${task}}"""))
 			.check(status is 200)
