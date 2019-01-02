@@ -28,9 +28,22 @@ buildscript {
 }
 
 allprojects {
+  group = "com.smartthings.spinnaker.orca"
   apply plugin: "spinnaker.base-project"
   apply plugin: "java"
-  group = "com.netflix.spinnaker.orca"
+  apply plugin: "maven-publish"
+
+  publishing {
+    repositories {
+      maven {
+        credentials {
+          username smartThingsUserName
+          password smartThingsPassword
+        }
+        url "https://smartthings.artifactoryonline.com/smartthings/libs-release-local"
+      }
+    }
+  }
 
   ext {
     spinnakerDependenciesVersion = '1.9.0'

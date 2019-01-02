@@ -18,7 +18,7 @@ release_build:
   - streleng
   script:
   - >
-    ./gradlew -Prelease.useLastTag=true -x test build -I gradle/init-publish.gradle publish --stacktrace
+    ./gradlew -Prelease.useLastTag=true -x test build publish --stacktrace
     -PsmartThingsUserName=$ARTIFACTORY_USERNAME
     -PsmartThingsPassword=$ARTIFACTORY_PASSWORD
   only:
