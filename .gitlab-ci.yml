@@ -1,0 +1,26 @@
+image: openjdk:8
+
+variables:
+  GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
+
+cache:
+  key: $CI_PROJECT_NAME
+  paths:
+  - .gradle/wrapper/
+  - .gradle/caches/
+
+stages:
+- build
+
+release_build:
+  stage: build
+  tags:
+  - streleng
+  script:
+  - >
+    ./gradlew -Prelease.useLastTag=true -x test build publish --stacktrace
+    -PsmartThingsUserName=$ARTIFACTORY_USERNAME
+    -PsmartThingsPassword=$ARTIFACTORY_PASSWORD
+  only:
+  - tags
+
