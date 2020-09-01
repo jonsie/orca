@@ -22,6 +22,9 @@ spring:
   application:
     name: orca
 
+dynamic-stage-resolver:
+  enabled: true
+
 spinnaker:
   extensibility:
     framework:

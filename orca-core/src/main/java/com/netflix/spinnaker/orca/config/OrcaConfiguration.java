@@ -52,6 +52,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.pf4j.PluginManager;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -218,10 +219,10 @@ public class OrcaConfiguration {
   @ConditionalOnProperty("dynamic-stage-resolver.enabled")
   public DynamicStageResolver dynamicStageResolver(
       DynamicConfigService dynamicConfigService,
-      Collection<StageDefinitionBuilder> stageDefinitionBuilders,
+      ObjectProvider<Collection<StageDefinitionBuilder>> stageDefinitionBuildersProvider,
       Optional<List<SimpleStage<?>>> simpleStages) {
     return new DynamicStageResolver(
-        dynamicConfigService, stageDefinitionBuilders, simpleStages.orElse(null));
+        dynamicConfigService, stageDefinitionBuildersProvider, simpleStages.orElse(null));
   }
 
   @Bean

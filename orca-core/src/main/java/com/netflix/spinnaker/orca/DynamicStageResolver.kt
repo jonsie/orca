@@ -22,6 +22,7 @@ import com.netflix.spinnaker.orca.api.pipeline.graph.StageDefinitionBuilder
 import com.netflix.spinnaker.orca.api.simplestage.SimpleStage
 import com.netflix.spinnaker.orca.pipeline.SimpleStageDefinitionBuilder
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.ObjectProvider
 
 /**
  * Allows for multiple stages to be wired up with the same alias, using dynamic config to dictate which to use.
@@ -40,7 +41,7 @@ import org.slf4j.LoggerFactory
  */
 class DynamicStageResolver(
   private val dynamicConfigService: DynamicConfigService,
-  stageDefinitionBuilders: Collection<StageDefinitionBuilder>,
+  private val stageDefinitionBuildersProvider: ObjectProvider<Collection<StageDefinitionBuilder>>,
   simpleStages: Collection<SimpleStage<*>>?
 ) : StageResolver {
 
@@ -50,7 +51,7 @@ class DynamicStageResolver(
   private val fallbackPreferences: MutableMap<String, String> = mutableMapOf()
 
   init {
-    stageDefinitionBuilders.forEach { builder ->
+    stageDefinitionBuildersProvider.ifAvailable!!.forEach { builder ->
       putOrAdd(builder.type, builder)
       builder.aliases().forEach { alias ->
         putOrAdd(alias, builder)
@@ -68,6 +69,14 @@ class DynamicStageResolver(
   }
 
   override fun getStageDefinitionBuilder(type: String, typeAlias: String?): StageDefinitionBuilder {
+
+    stageDefinitionBuildersProvider.ifAvailable!!.forEach { builder ->
+      putOrAdd(builder.type, builder)
+      builder.aliases().forEach { alias ->
+        putOrAdd(alias, builder)
+      }
+    }
+
     var builder: StageDefinitionBuilder? = null
 
     val builderForType = stageDefinitionBuildersByAlias[type]

@@ -23,7 +23,7 @@ import org.pf4j.Extension
 
 @Extension
 @Aliases("extensionStage")
-class StageDefinitionBuilderExtension : StageDefinitionBuilder {
+class StageDefinitionBuilderExtension() : StageDefinitionBuilder {
   override fun taskGraph(stage: StageExecution, builder: TaskNode.Builder) {
     builder.withTask("task 1", TaskExtension1::class.java)
     builder.withTask("task 2", TaskExtension2::class.java)
